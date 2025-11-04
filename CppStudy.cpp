@@ -4,6 +4,7 @@
 #include "Loops.h"
 #include "Memory.h"
 #include "Functions.h"
+#include "Objects.h"
 
 int main()
 {
@@ -56,6 +57,21 @@ int main()
 
     auto a = CppStudy::whichIsGreater<int>(10, 7);
     auto b = CppStudy::whichIsGreater<double>(10.5, 7.3);
+    std::cout << "Greater integer: " << a << std::endl;
+    std::cout << "Greater double: " << b << std::endl;
+
+    CppStudy::Person person = {"John Doe", 30};
+    std::cout << "Person Name: " << person.name << ", Age: " << person.age << std::endl;
+    CppStudy::UpdatePersonName(person, "Jane Smith");
+    std::cout << "Updated Person Name: " << person.name << ", Age: " << person.age << std::endl;
+
+    CppStudy::Animal animal("Dog", 5);
+    std::cout << "Animal Type: " << animal.getType() << ", Age: " << animal.getAge() << std::endl;
+
+    CppStudy::Planet planet("Mars", 6.39e23);
+    std::cout << "Planet Name: " << planet.getName() << ", Mass: " << planet.getMass() << " kg" << std::endl;
+    CppStudy::Earth earth;
+    std::cout << "Earth Name: " << earth.getName() << ", Mass: " << earth.getMass() << " kg" << std::endl;
 
     // std::string input;
     // std::cout << "Press Enter to exit...";
