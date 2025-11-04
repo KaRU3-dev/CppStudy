@@ -28,6 +28,9 @@ int main()
     std::string evenCheck = CppStudy::isEven50(50);
     std::cout << "Is 50 even? " << evenCheck << std::endl;
 
+    std::string oddEvenCheck = CppStudy::hasOrEven50(33);
+    std::cout << "Is 33 odd or even? " << oddEvenCheck << std::endl;
+
     // std::string input;
     // std::cout << "Press Enter to exit...";
     // std::getline(std::cin, input);

@@ -38,4 +38,16 @@ namespace CppStudy
     {
         return number == 50 ? "Even" : "Odd";
     }
+
+    std::string hasOrEven50(int number)
+    {
+        if (number == 50 || number % 2 == 0)
+        {
+            return "Even";
+        }
+        else
+        {
+            return "Odd";
+        }
+    }
 }

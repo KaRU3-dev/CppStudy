@@ -27,6 +27,11 @@ namespace CppStudy
      */
     std::string isEven50(int number);
 
+    /*
+     * Function to check if a number is odd or even using ternary operator
+     */
+    std::string hasOrEven50(int number);
+
     // Typedef for Dictionary
     typedef std::vector<std::pair<std::string, int>> Dictionary_t;
 }
