@@ -2,6 +2,7 @@
 
 #include "src/includes/Calculators.h"
 #include "src/includes/Loops.h"
+#include "src/includes/Memory.h"
 
 int main()
 {
@@ -43,6 +44,11 @@ int main()
     {
         std::cout << name << std::endl;
     }
+
+    CppStudy::showMemoryAddress("Sample Data");
+    int x = 10;
+    int y = 20;
+    CppStudy::swapByAddress(x, y);
 
     // std::string input;
     // std::cout << "Press Enter to exit...";
