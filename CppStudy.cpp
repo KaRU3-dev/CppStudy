@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "src/includes/Calculators.h"
-#include "src/includes/Loops.h"
-#include "src/includes/Memory.h"
-#include "src/includes/Functions.h"
+#include "Calculators.h"
+#include "Loops.h"
+#include "Memory.h"
+#include "Functions.h"
 
 int main()
 {
