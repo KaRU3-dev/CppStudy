@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "src/includes/Calculators.h"
+#include "src/includes/Loops.h"
 
 int main()
 {
@@ -30,6 +31,11 @@ int main()
 
     std::string oddEvenCheck = CppStudy::hasOrEven50(33);
     std::cout << "Is 33 odd or even? " << oddEvenCheck << std::endl;
+
+    CppStudy::whileCountUp(5);
+    CppStudy::doWhileExample(5);
+    CppStudy::forCountLimited(0, 10, 2);
+    CppStudy::countWithLimit(5);
 
     // std::string input;
     // std::cout << "Press Enter to exit...";
