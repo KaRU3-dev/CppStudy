@@ -25,6 +25,9 @@ int main()
     std::string data = CppStudy::getData(1);
     std::cout << "Data for ID 1: " << data << std::endl;
 
+    std::string evenCheck = CppStudy::isEven50(50);
+    std::cout << "Is 50 even? " << evenCheck << std::endl;
+
     // std::string input;
     // std::cout << "Press Enter to exit...";
     // std::getline(std::cin, input);

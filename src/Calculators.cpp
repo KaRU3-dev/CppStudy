@@ -33,4 +33,9 @@ namespace CppStudy
             return "No data found";
         }
     }
+
+    std::string isEven50(int number)
+    {
+        return number == 50 ? "Even" : "Odd";
+    }
 }

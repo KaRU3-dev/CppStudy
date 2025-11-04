@@ -22,6 +22,11 @@ namespace CppStudy
      */
     std::string getData(int id);
 
+    /*
+     * Function to check if a number is even
+     */
+    std::string isEven50(int number);
+
     // Typedef for Dictionary
     typedef std::vector<std::pair<std::string, int>> Dictionary_t;
 }
