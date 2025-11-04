@@ -49,6 +49,9 @@ int main()
     int x = 10;
     int y = 20;
     CppStudy::swapByAddress(x, y);
+    CppStudy::examplePointerUsage();
+    CppStudy::nullptrExample();
+    CppStudy::dynamicMemoryExample();
 
     // std::string input;
     // std::cout << "Press Enter to exit...";
