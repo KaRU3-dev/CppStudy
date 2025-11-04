@@ -3,6 +3,7 @@
 #include "src/includes/Calculators.h"
 #include "src/includes/Loops.h"
 #include "src/includes/Memory.h"
+#include "src/includes/Functions.h"
 
 int main()
 {
@@ -52,6 +53,9 @@ int main()
     CppStudy::examplePointerUsage();
     CppStudy::nullptrExample();
     CppStudy::dynamicMemoryExample();
+
+    auto a = CppStudy::whichIsGreater<int>(10, 7);
+    auto b = CppStudy::whichIsGreater<double>(10.5, 7.3);
 
     // std::string input;
     // std::cout << "Press Enter to exit...";
