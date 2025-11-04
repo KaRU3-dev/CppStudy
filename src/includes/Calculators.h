@@ -12,6 +12,11 @@ namespace CppStudy
      */
     int add(int a, int b);
 
+    /*
+     * Function to add two integers with a limit
+     */
+    int add(int a, int b, int limit);
+
     // Typedef for Dictionary
     typedef std::vector<std::pair<std::string, int>> Dictionary_t;
 }

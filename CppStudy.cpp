@@ -19,9 +19,12 @@ int main()
         std::cout << pair.first << ": " << pair.second << std::endl;
     }
 
-    std::string input;
-    std::cout << "Press Enter to exit...";
-    std::getline(std::cin, input);
+    int limitedSum = CppStudy::add(10, 20, 25);
+    std::cout << "The limited sum of 10 and 20 with limit 25 is: " << limitedSum << std::endl;
+
+    // std::string input;
+    // std::cout << "Press Enter to exit...";
+    // std::getline(std::cin, input);
 
     return 0;
 }
