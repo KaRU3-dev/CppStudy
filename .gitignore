@@ -1,0 +1,48 @@
+# Build directories
+/build/
+/bin/
+/lib/
+/CMakeFiles/
+/CMakeCache.txt
+/cmake_install.cmake
+/Makefile
+/install_manifest.txt
+
+# Visual Studio files
+.vs/
+.vscode/
+*.sln
+*.vcxproj*
+*.user
+*.opensdf
+*.sdf
+*.VC.db
+
+# MacOS files
+.DS_Store
+
+# Compiled object files
+*.o
+*.obj
+*.lo
+*.la
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+*.exe
+
+# Generated files
+*.log
+
+# Qt Creator
+*.user
+*.pro.user
+*.qbs.user
+*.cuser
+
+# Other
+*.swp
+*.bak
+*~
