@@ -37,6 +37,13 @@ int main()
     CppStudy::forCountLimited(0, 10, 2);
     CppStudy::countWithLimit(5);
 
+    std::string students[] = {"Alice", "Bob", "Charlie"};
+    std::cout << "Student names:" << std::endl;
+    for (const auto &name : students)
+    {
+        std::cout << name << std::endl;
+    }
+
     // std::string input;
     // std::cout << "Press Enter to exit...";
     // std::getline(std::cin, input);
