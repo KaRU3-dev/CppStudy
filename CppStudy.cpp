@@ -22,6 +22,9 @@ int main()
     int limitedSum = CppStudy::add(10, 20, 25);
     std::cout << "The limited sum of 10 and 20 with limit 25 is: " << limitedSum << std::endl;
 
+    std::string data = CppStudy::getData(1);
+    std::cout << "Data for ID 1: " << data << std::endl;
+
     // std::string input;
     // std::cout << "Press Enter to exit...";
     // std::getline(std::cin, input);

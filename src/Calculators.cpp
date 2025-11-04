@@ -20,4 +20,17 @@ namespace CppStudy
             return sum;
         }
     }
+
+    std::string getData(int id)
+    {
+        switch (id)
+        {
+        case 1:
+            return "Data for ID 1";
+        case 2:
+            return "Data for ID 2";
+        default:
+            return "No data found";
+        }
+    }
 }

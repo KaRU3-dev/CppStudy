@@ -17,6 +17,11 @@ namespace CppStudy
      */
     int add(int a, int b, int limit);
 
+    /*
+     * Function to get data by ID (stub function for demonstration)
+     */
+    std::string getData(int id);
+
     // Typedef for Dictionary
     typedef std::vector<std::pair<std::string, int>> Dictionary_t;
 }
