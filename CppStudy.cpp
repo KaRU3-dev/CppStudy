@@ -19,5 +19,9 @@ int main()
         std::cout << pair.first << ": " << pair.second << std::endl;
     }
 
+    std::string input;
+    std::cout << "Press Enter to exit...";
+    std::getline(std::cin, input);
+
     return 0;
 }
