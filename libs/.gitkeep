@@ -1,0 +1,5 @@
+# OpenGL
+1. https://www.transmissionzero.co.uk/software/freeglut-devel/ -> MinGW Package
+2. Unzip and copy {unziped}/freeglut directory
+3. Past to libs directory and rename to freeglut_opengl_mingw_build_3.0.0
+4. If needed, please reconfigure CMake

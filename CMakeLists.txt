@@ -34,6 +34,15 @@ endforeach()
 
 add_executable(CppStudy CppStudy.cpp ${SRC_FILES})
 
+# --- freeglut opengl ---
+set(FG_ROOT "${CMAKE_SOURCE_DIR}/libs/freeglut_opengl_mingw_build_3.0.0")
+set(FG_INCLUDE "${FG_ROOT}/include")
+set(FG_LIB "${FG_ROOT}/lib")
+
+target_include_directories(CppStudy PRIVATE "${FG_INCLUDE}")
+link_directories("${FG_LIB}")
+target_link_libraries(CppStudy PRIVATE freeglut_static opengl32 glu32)
+
 # --- ライブラリ追加例 ---
 # find_package(ライブラリ名 REQUIRED)
 # target_link_libraries(CppStudy PRIVATE ライブラリ名::ライブラリ名)
