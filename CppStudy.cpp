@@ -75,10 +75,23 @@ void display()
 }
 void reshape(int w, int h)
 {
-    if (h == 0)
+    if (w <= 0)
+        w = 1;
+    if (h <= 0)
         h = 1;
 
+    std::cout << "Reshape: " << w << "x" << h << std::endl;
+
     glViewport(0, 0, w, h);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    ImGuiIO &io = ImGui::GetIO();
+    io.DisplaySize = ImVec2((float)w, (float)h);
 }
 
 void init()
@@ -94,7 +107,6 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
     glutInitWindowSize(800, 600);
     glutCreateWindow("ImGui + freeglut Example");
-    reshape(800, 600);
 
     init();
 
