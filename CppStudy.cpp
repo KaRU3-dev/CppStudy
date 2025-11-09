@@ -1,16 +1,39 @@
 #include <iostream>
 
-#include <GL/glut.h>
-
-#include "Calculators.h"
-#include "Loops.h"
-#include "Memory.h"
-#include "Functions.h"
-#include "Objects.h"
+#include <GL/freeglut.h>
+#include "imgui.h"
+#include "backends/imgui_impl_glut.h"
+#include "backends/imgui_impl_opengl2.h"
 
 void display()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    int w = glutGet(GLUT_WINDOW_WIDTH);
+    int h = glutGet(GLUT_WINDOW_HEIGHT);
+    if (w <= 0 || h <= 0)
+    {
+        // ウィンドウがまだ有効でないなら何もしない（または短絡的に reshape を呼ぶ）
+        return;
+    }
+
+    // 1) クリア
+    glClearColor(0.1f, 0.12f, 0.15f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // 2) 自前描画（GL state を保存）
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+
+    // （必要なら適切な投影をセット）
+    // glMatrixMode(GL_PROJECTION);
+    // glLoadIdentity();
+    // glOrtho(-1,1,-1,1,-1,1);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
     glBegin(GL_POLYGON);
     glColor3d(1.0, 0.0, 0.0);
     glVertex2d(-0.9, -0.9);
@@ -21,7 +44,41 @@ void display()
     glColor3d(1.0, 1.0, 0.0);
     glVertex2d(-0.9, 0.9);
     glEnd();
-    glFlush();
+
+    // restore
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+    glPopAttrib();
+
+    // 3) ImGui フレーム（順序に注意）
+    ImGui_ImplGLUT_NewFrame();
+    ImGui_ImplOpenGL2_NewFrame();
+    ImGui::NewFrame();
+
+    // 4) ImGui ウィジェット
+    ImGui::Begin("Demo Window");
+    ImGui::Text("Hello, ImGui + freeglut!");
+    static float f = 0.0f;
+    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+    if (ImGui::Button("Quit"))
+    {
+        glutLeaveMainLoop();
+    }
+    ImGui::End();
+
+    // 5) Render ImGui and swap
+    ImGui::Render();
+    ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+    glutSwapBuffers();
+}
+void reshape(int w, int h)
+{
+    if (h == 0)
+        h = 1;
+
+    glViewport(0, 0, w, h);
 }
 
 void init()
@@ -33,80 +90,42 @@ int main(int argc, char **argv)
 {
     std::cout << "Hello, MinGW!" << std::endl;
 
-    int sum = CppStudy::add(3, 5);
-    std::cout << "The sum of 3 and 5 is: " << sum << std::endl;
-
-    CppStudy::Dictionary_t dict;
-    dict.push_back(std::make_pair("apple", 1));
-    dict.push_back(std::make_pair("banana", 2));
-
-    std::cout << "Dictionary contents:" << std::endl;
-    for (const auto &pair : dict)
-    {
-        std::cout << pair.first << ": " << pair.second << std::endl;
-    }
-
-    int limitedSum = CppStudy::add(10, 20, 25);
-    std::cout << "The limited sum of 10 and 20 with limit 25 is: " << limitedSum << std::endl;
-
-    std::string data = CppStudy::getData(1);
-    std::cout << "Data for ID 1: " << data << std::endl;
-
-    std::string evenCheck = CppStudy::isEven50(50);
-    std::cout << "Is 50 even? " << evenCheck << std::endl;
-
-    std::string oddEvenCheck = CppStudy::hasOrEven50(33);
-    std::cout << "Is 33 odd or even? " << oddEvenCheck << std::endl;
-
-    CppStudy::whileCountUp(5);
-    CppStudy::doWhileExample(5);
-    CppStudy::forCountLimited(0, 10, 2);
-    CppStudy::countWithLimit(5);
-
-    std::string students[] = {"Alice", "Bob", "Charlie"};
-    std::cout << "Student names:" << std::endl;
-    for (const auto &name : students)
-    {
-        std::cout << name << std::endl;
-    }
-
-    CppStudy::showMemoryAddress("Sample Data");
-    int x = 10;
-    int y = 20;
-    CppStudy::swapByAddress(x, y);
-    CppStudy::examplePointerUsage();
-    CppStudy::nullptrExample();
-    CppStudy::dynamicMemoryExample();
-
-    auto a = CppStudy::whichIsGreater<int>(10, 7);
-    auto b = CppStudy::whichIsGreater<double>(10.5, 7.3);
-    std::cout << "Greater integer: " << a << std::endl;
-    std::cout << "Greater double: " << b << std::endl;
-
-    CppStudy::Person person = {"John Doe", 30};
-    std::cout << "Person Name: " << person.name << ", Age: " << person.age << std::endl;
-    CppStudy::UpdatePersonName(person, "Jane Smith");
-    std::cout << "Updated Person Name: " << person.name << ", Age: " << person.age << std::endl;
-
-    CppStudy::Animal animal("Dog", 5);
-    std::cout << "Animal Type: " << animal.getType() << ", Age: " << animal.getAge() << std::endl;
-
-    CppStudy::Planet planet("Mars", 6.39e23);
-    std::cout << "Planet Name: " << planet.getName() << ", Mass: " << planet.getMass() << " kg" << std::endl;
-    CppStudy::Earth earth;
-    std::cout << "Earth Name: " << earth.getName() << ", Mass: " << earth.getMass() << " kg" << std::endl;
-
-    // std::string input;
-    // std::cout << "Press Enter to exit...";
-    // std::getline(std::cin, input);
-
-    // ライブラリの使用を確認するための簡単なOpenGLウィンドウ表示
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGBA);
-    glutCreateWindow(argv[0]);
-    glutDisplayFunc(display);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+    glutInitWindowSize(800, 600);
+    glutCreateWindow("ImGui + freeglut Example");
+    reshape(800, 600);
+
     init();
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    int w = glutGet(GLUT_WINDOW_WIDTH);
+    int h = glutGet(GLUT_WINDOW_HEIGHT);
+    if (w <= 0)
+        w = 800;
+    if (h <= 0)
+        h = 600;
+    ImGuiIO &io = ImGui::GetIO();
+    io.DisplaySize = ImVec2((float)w, (float)h);
+    ImGui::StyleColorsDark();
+
+    ImGui_ImplGLUT_Init();
+    ImGui_ImplOpenGL2_Init();
+
+    ImGui_ImplGLUT_InstallFuncs();
+
+    glutReshapeFunc(reshape);
+    glutDisplayFunc(display);
+
+    glutIdleFunc([]()
+                 { glutPostRedisplay(); });
+
     glutMainLoop();
+
+    ImGui_ImplOpenGL2_Shutdown();
+    ImGui_ImplGLUT_Shutdown();
+    ImGui::DestroyContext();
 
     return 0;
 }

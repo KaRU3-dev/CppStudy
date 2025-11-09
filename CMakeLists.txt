@@ -42,16 +42,42 @@ set(FG_LIB "${FG_ROOT}/lib")
 target_include_directories(CppStudy PRIVATE "${FG_ROOT}/include")
 target_compile_definitions(CppStudy PRIVATE GLUT_DISABLE_ATEXIT_HACK)
 
-target_link_libraries(CppStudy PRIVATE
-    "${FG_LIB}/x64/libfreeglut.a"
-    opengl32
-    glu32
-)
-
 add_custom_command(TARGET CppStudy POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     "${FG_ROOT}/bin/x64/freeglut.dll"
     $<TARGET_FILE_DIR:CppStudy>
+)
+
+# --- ImGui ---
+set(IMGUI_ROOT "${CMAKE_SOURCE_DIR}/libs/imgui_source")
+set(IMGUI_SOURCES
+    ${IMGUI_ROOT}/imgui.cpp
+    ${IMGUI_ROOT}/imgui_draw.cpp
+    ${IMGUI_ROOT}/imgui_tables.cpp
+    ${IMGUI_ROOT}/imgui_widgets.cpp
+    ${IMGUI_ROOT}/backends/imgui_impl_glut.cpp
+    ${IMGUI_ROOT}/backends/imgui_impl_opengl2.cpp
+)
+
+add_library(imgui STATIC ${IMGUI_SOURCES})
+target_include_directories(imgui PUBLIC
+    ${IMGUI_ROOT}
+    ${IMGUI_ROOT}/backends
+    ${FG_ROOT}/include
+)
+target_link_libraries(imgui PUBLIC
+    "${FG_LIB}/x64/libfreeglut.a"
+    opengl32
+    glu32
+)
+target_compile_definitions(imgui PUBLIC GLUT_DISABLE_ATEXIT_HACK)
+
+# --- ライブラリリンク ---
+target_link_libraries(CppStudy PRIVATE
+    imgui
+    "${FG_LIB}/x64/libfreeglut.a"
+    opengl32
+    glu32
 )
 
 # --- ライブラリ追加例 ---
