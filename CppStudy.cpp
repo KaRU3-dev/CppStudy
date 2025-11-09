@@ -5,6 +5,8 @@
 #include "backends/imgui_impl_glut.h"
 #include "backends/imgui_impl_opengl2.h"
 
+#include "Engine.h"
+
 void display()
 {
     int w = glutGet(GLUT_WINDOW_WIDTH);
@@ -60,6 +62,7 @@ void display()
     // 4) ImGui ウィジェット
     ImGui::Begin("Demo Window");
     ImGui::Text("Hello, ImGui + freeglut!");
+    ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
     static float f = 0.0f;
     ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
     if (ImGui::Button("Quit"))
