@@ -65,6 +65,14 @@ void display()
     ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
     static float f = 0.0f;
     ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+    if (ImGui::Button("Fullscreen"))
+    {
+        glutFullScreen();
+    }
+    if (ImGui::Button("Windowed"))
+    {
+        glutReshapeWindow(800, 600);
+    }
     if (ImGui::Button("Quit"))
     {
         glutLeaveMainLoop();
