@@ -1,9 +1,9 @@
 #include <iostream>
 
 #include <GL/freeglut.h>
-#include "imgui.h"
-#include "backends/imgui_impl_glut.h"
-#include "backends/imgui_impl_opengl2.h"
+#include <imgui.h>
+#include <imgui_impl_glut.h>
+#include <imgui_impl_opengl3.h>
 
 #include "Engine.h"
 
@@ -56,7 +56,7 @@ void display()
 
     // 3) ImGui フレーム（順序に注意）
     ImGui_ImplGLUT_NewFrame();
-    ImGui_ImplOpenGL2_NewFrame();
+    ImGui_ImplOpenGL3_NewFrame();
     ImGui::NewFrame();
 
     // 4) ImGui ウィジェット
@@ -73,7 +73,7 @@ void display()
 
     // 5) Render ImGui and swap
     ImGui::Render();
-    ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     glutSwapBuffers();
 }
 void reshape(int w, int h)
@@ -126,7 +126,7 @@ int main(int argc, char **argv)
     ImGui::StyleColorsDark();
 
     ImGui_ImplGLUT_Init();
-    ImGui_ImplOpenGL2_Init();
+    ImGui_ImplOpenGL3_Init();
 
     ImGui_ImplGLUT_InstallFuncs();
 
@@ -138,7 +138,7 @@ int main(int argc, char **argv)
 
     glutMainLoop();
 
-    ImGui_ImplOpenGL2_Shutdown();
+    ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGLUT_Shutdown();
     ImGui::DestroyContext();
 

@@ -1,0 +1,12 @@
+{
+    "dependencies": [
+        "freeglut",
+        {
+            "name": "imgui",
+            "features": [
+                "glut-binding",
+                "opengl3-binding"
+            ]
+        }
+    ]
+}

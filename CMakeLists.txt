@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.10.0)
 project(CppStudy VERSION 0.1.0 LANGUAGES C CXX)
 
+# -- ライブラリの検索 ---
+find_package(imgui CONFIG REQUIRED)
+find_package(GLUT REQUIRED)
+find_package(OpenGL REQUIRED)
+
 if (MINGW)
     message("MinGW detected")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
@@ -35,49 +40,14 @@ endforeach()
 # 実行ファイルの作成とライブラリのリンク
 add_executable(CppStudy CppStudy.cpp ${SRC_FILES})
 
-# --- freeglut opengl ---
-set(FG_ROOT "${CMAKE_SOURCE_DIR}/libs/freeglut_opengl_mingw_build_3.0.0")
-set(FG_LIB "${FG_ROOT}/lib")
-
-target_include_directories(CppStudy PRIVATE "${FG_ROOT}/include")
+# GLUTのatexitハックを無効化
 target_compile_definitions(CppStudy PRIVATE GLUT_DISABLE_ATEXIT_HACK)
 
-add_custom_command(TARGET CppStudy POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${FG_ROOT}/bin/x64/freeglut.dll"
-    $<TARGET_FILE_DIR:CppStudy>
-)
-
-# --- ImGui ---
-set(IMGUI_ROOT "${CMAKE_SOURCE_DIR}/libs/imgui_source")
-set(IMGUI_SOURCES
-    ${IMGUI_ROOT}/imgui.cpp
-    ${IMGUI_ROOT}/imgui_draw.cpp
-    ${IMGUI_ROOT}/imgui_tables.cpp
-    ${IMGUI_ROOT}/imgui_widgets.cpp
-    ${IMGUI_ROOT}/backends/imgui_impl_glut.cpp
-    ${IMGUI_ROOT}/backends/imgui_impl_opengl2.cpp
-)
-
-add_library(imgui STATIC ${IMGUI_SOURCES})
-target_include_directories(imgui PUBLIC
-    ${IMGUI_ROOT}
-    ${IMGUI_ROOT}/backends
-    ${FG_ROOT}/include
-)
-target_link_libraries(imgui PUBLIC
-    "${FG_LIB}/x64/libfreeglut.a"
-    opengl32
-    glu32
-)
-target_compile_definitions(imgui PUBLIC GLUT_DISABLE_ATEXIT_HACK)
-
-# --- ライブラリリンク ---
+# --- ライブラリの追加 ---
 target_link_libraries(CppStudy PRIVATE
-    imgui
-    "${FG_LIB}/x64/libfreeglut.a"
-    opengl32
-    glu32
+    imgui::imgui
+    GLUT::GLUT
+    OpenGL::GL
 )
 
 # --- ライブラリ追加例 ---

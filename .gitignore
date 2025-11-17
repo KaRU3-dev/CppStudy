@@ -13,6 +13,7 @@
 # Library directories
 /libs/*
 !/libs/.gitkeep
+vcpkg_installed/
 
 # Visual Studio files
 .vs/
@@ -41,6 +42,7 @@
 
 # Generated files
 *.log
+*.ini
 
 # Qt Creator
 *.user
