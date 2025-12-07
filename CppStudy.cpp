@@ -104,6 +104,46 @@ void reshape(int w, int h)
     ImGuiIO &io = ImGui::GetIO();
     io.DisplaySize = ImVec2((float)w, (float)h);
 }
+void timer(int value)
+{
+    glutPostRedisplay();
+    glutTimerFunc(1000 / 60, timer, 0);
+}
+void onMouseInput(int button, int state, int x, int y)
+{
+    // ImGui にマウス情報を伝える（必要に応じて）
+    ImGuiIO &io = ImGui::GetIO();
+    if (button == GLUT_LEFT_BUTTON)
+        io.MouseDown[0] = (state == GLUT_DOWN);
+    else if (button == GLUT_RIGHT_BUTTON)
+        io.MouseDown[1] = (state == GLUT_DOWN);
+    else if (button == GLUT_MIDDLE_BUTTON)
+        io.MouseDown[2] = (state == GLUT_DOWN);
+
+    switch (button)
+    {
+    case GLUT_LEFT_BUTTON:
+        std::cout << "Mouse Left Button: " << (state == GLUT_DOWN ? "Down" : "Up") << " at (" << x << ", " << y << ")" << std::endl;
+        break;
+    case GLUT_RIGHT_BUTTON:
+        std::cout << "Mouse Right Button: " << (state == GLUT_DOWN ? "Down" : "Up") << " at (" << x << ", " << y << ")" << std::endl;
+        break;
+    case GLUT_MIDDLE_BUTTON:
+        std::cout << "Mouse Middle Button: " << (state == GLUT_DOWN ? "Down" : "Up") << " at (" << x << ", " << y << ")" << std::endl;
+        break;
+    default:
+        std::cout << "Mouse Button " << button << ": " << (state == GLUT_DOWN ? "Down" : "Up") << " at (" << x << ", " << y << ")" << std::endl;
+        break;
+    }
+}
+void onMouseMove(int x, int y)
+{
+    // ImGui にマウス位置を伝える
+    ImGuiIO &io = ImGui::GetIO();
+    io.MousePos = ImVec2((float)x, (float)y);
+
+    std::cout << "Mouse Move to (" << x << ", " << y << ")" << std::endl;
+}
 
 void init()
 {
@@ -140,10 +180,11 @@ int main(int argc, char **argv)
 
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
+    glutMouseFunc(onMouseInput);
+    glutMotionFunc(onMouseMove);
+    glutPassiveMotionFunc(onMouseMove);
 
-    glutIdleFunc([]()
-                 { glutPostRedisplay(); });
-
+    glutTimerFunc(0, timer, 0);
     glutMainLoop();
 
     ImGui_ImplOpenGL3_Shutdown();
