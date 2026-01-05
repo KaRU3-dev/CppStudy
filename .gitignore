@@ -2,13 +2,13 @@
 !*.gitkeep
 
 # Build directories
-/build/
-/bin/
-/CMakeFiles/
-/CMakeCache.txt
-/cmake_install.cmake
-/Makefile
-/install_manifest.txt
+build/
+bin/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+install_manifest.txt
 
 # Library directories
 /libs/*
