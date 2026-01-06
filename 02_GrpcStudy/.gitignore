@@ -1,0 +1,3 @@
+# Generated code for grpc
+*.grpc.pb.h
+*.grpc.pb.cc
