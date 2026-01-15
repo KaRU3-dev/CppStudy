@@ -91,6 +91,10 @@ void RunServer()
 
 int main()
 {
+    logger::Log("Starting server...");
+
     RunServer();
+
+    logger::Log("Server stopped");
     return 0;
 }

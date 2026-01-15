@@ -3,7 +3,7 @@
     "configurePresets": [
         {
             "name": "default",
-            "generator": "MinGW Makefiles",
+            "generator": "Ninja",
             "binaryDir": "build",
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
