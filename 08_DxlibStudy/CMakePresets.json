@@ -1,0 +1,29 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "Debug",
+            "displayName": "Debug with Ninja",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/debug/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "VCPKG_TARGET_TRIPLET": "x64-windows"
+            }
+        },
+        {
+            "name": "Release",
+            "displayName": "Release with Ninja",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/release/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "VCPKG_TARGET_TRIPLET": "x64-windows"
+            }
+        }
+    ]
+}
