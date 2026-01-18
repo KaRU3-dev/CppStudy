@@ -3,10 +3,12 @@
     "configurePresets": [
         {
             "name": "Debug",
-            "displayName": "Debug with Ninja",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/out/build/debug/${presetName}",
+            "displayName": "Debug with mingw make",
+            "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
             "cacheVariables": {
+                "CMAKE_C_COMPILER": "F:/.env/C_langs/mingw64-v15.2.0/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "F:/.env/C_langs/mingw64-v15.2.0/bin/g++.exe",
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
@@ -15,10 +17,12 @@
         },
         {
             "name": "Release",
-            "displayName": "Release with Ninja",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/out/build/release/${presetName}",
+            "displayName": "Release with mingw make",
+            "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
             "cacheVariables": {
+                "CMAKE_C_COMPILER": "F:/.env/C_langs/mingw64-v15.2.0/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "F:/.env/C_langs/mingw64-v15.2.0/bin/g++.exe",
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",

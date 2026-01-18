@@ -37,41 +37,32 @@ if (MINGW)
     # ライブラリは依存順を厳密に
     target_link_libraries(DxlibStudy PRIVATE
         DxLib
-        DxDrawFunc
         DxUseCLib
-
-        png
+        DxDrawFunc
         jpeg
+        png
         zlib
         tiff
-
         theora_static
-        vorbisfile_static
         vorbis_static
+        vorbisfile_static
         ogg_static
-
-        opusfile
-        opus
-        celt
-
         bulletdynamics
         bulletcollision
         bulletmath
-
-        gdi32
-        user32
-        winmm
-        imm32
-        ole32
-        oleaut32
-        version
-        uuid
-        shell32
-        kernel32
-        comdlg32
-        advapi32
-
-        mingwex
-        msvcrt
+        opusfile
+        opus
+        silk_common
+        celt
     )
 endif()
+
+# Copy ./assets folder
+add_custom_command(
+    TARGET DxlibStudy
+    POST_BUILD
+    COMMAND
+        ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:DxlibStudy>/assets
+)
