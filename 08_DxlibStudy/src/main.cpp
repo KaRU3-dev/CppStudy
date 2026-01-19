@@ -3,18 +3,22 @@
 #include <string>
 #include <math.h>
 
+#include "Camera.h"
+
+using namespace DxLib;
+
 constexpr std::int16_t FONT_SIZE = 20;
 constexpr std::int32_t PLAYERSPEED = 500;
 
 int deltaPrevTime;
 
-struct Vertex
+struct Vector2
 {
     std::int32_t x;
     std::int32_t y;
 };
-#define ScreenSize Vertex
-#define Position Vertex
+#define ScreenSize Vector2
+#define Position Vector2
 
 std::int32_t GetScreenWidth()
 {
@@ -53,8 +57,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     SetGraphMode(screenSize.x, screenSize.y, 32);
     ChangeWindowMode(FALSE);
     SetDrawScreen(DX_SCREEN_BACK);
-    // SetFullScreenResolutionMode(DX_FSRESOLUTIONMODE_DESKTOP); // 破壊的な解像度の変更を伴う
-    // SetWindowSizeChangeEnableFlag(FALSE, FALSE);
 
     // DXライブラリの初期化
     if (DxLib_Init() == -1)
@@ -62,12 +64,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         return -1; // エラー時終了
     }
 
-    // アセット読み込み
-    int hjsImgHandle = LoadGraph("assets/images/emoji-hjs.png");
-
-    // DireXバージョンを取得
-    // int ShaderVersion = GetValidShaderVersion();
-    // printfDx("Shader Version: %d\n", ShaderVersion); // もし、500ならDirectX11相当
+    SetCameraNearFar(1.0f, 2000.0f); // クリップ距離
+    DxlibStudy::Camera camera;
 
     // メインループ
     while (ProcessMessage() == 0 && ClearDrawScreen() == 0)
@@ -75,41 +73,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         // 画面をクリア
         ClearDrawScreen();
 
-        // プレイヤーの移動
-        float dx = 0.0f;
-        float dy = 0.0f;
-        if (CheckHitKey(KEY_INPUT_A))
-        {
-            dx -= 1.0f; // 左移動
-        }
-        if (CheckHitKey(KEY_INPUT_D))
-        {
-            dx += 1.0f; // 右移動
-        }
-        if (CheckHitKey(KEY_INPUT_W))
-        {
-            dy -= 1.0f; // 上移動
-        }
-        if (CheckHitKey(KEY_INPUT_S))
-        {
-            dy += 1.0f; // 下移動
-        }
-        float len = sqrtf(dx * dx + dy * dy);
-        if (len > 0.0f)
-        {
-            dx /= len;
-            dy /= len;
-        }
-        float deltaTime = GetDeltaTime();
-        playerPosition.x += (std::int32_t)(dx * PLAYERSPEED * deltaTime);
-        playerPosition.y += (std::int32_t)(dy * PLAYERSPEED * deltaTime);
+        int fps = GetFPS();
+
+        camera.Update();
+        camera.Apply();
 
         // 文字列を画面に表示
-        std::string screenInfoMsg = "Screen Size: " + std::to_string(screenSize.x) + "x" + std::to_string(screenSize.y);
+        std::string screenInfoMsg = "Screen Size: " + std::to_string(screenSize.x) + "x" + std::to_string(screenSize.y) +
+                                    "\nScreen update: " + std::to_string(fps) + "fps";
         DrawString(0, 0, screenInfoMsg.c_str(), GetColor(255, 255, 255));
 
-        // 画像を表示
-        DrawGraph(playerPosition.x, playerPosition.y, hjsImgHandle, TRUE);
+        // DrawCube3D(Pos1, Pos2, DifColor, SpcColor, FillFlag)
+        // Pos1 と Pos2 で対角の 2 点を指定（VECTOR）
+        DrawCube3D(VGet(-150.0f, -150.0f, -150.0f),
+                   VGet(50.0f, 50.0f, 50.0f),
+                   GetColor(0, 255, 0), // ディフューズ色
+                   GetColor(0, 255, 0), // スペキュラ色（光沢）
+                   TRUE);               // TRUE=塗りつぶし、FALSE=ワイヤーフレーム
 
         // 画面の更新
         ScreenFlip();

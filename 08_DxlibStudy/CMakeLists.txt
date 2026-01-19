@@ -9,13 +9,13 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
-include_directories(${CMAKE_SOURCE_DIR}/src/includes)
 
 add_executable(DxlibStudy WIN32 ${SRC_FILES})
 
-# DxLib include
+# Include Directories
 target_include_directories(DxlibStudy PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/.libs/dxlib
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/includes
 )
 
 # DxLib library path
