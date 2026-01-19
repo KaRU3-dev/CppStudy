@@ -14,22 +14,13 @@ constexpr std::int32_t PLAYERSPEED = 500;
 
 int deltaPrevTime;
 
-struct Vector2
+VECTOR GetScreenSize()
 {
-    std::int32_t x;
-    std::int32_t y;
-};
-#define ScreenSize Vector2
-#define Position Vector2
+    int w, h;
+    w = GetSystemMetrics(SM_CXSCREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
 
-std::int32_t GetScreenWidth()
-{
-    return (std::int32_t)GetSystemMetrics(SM_CXSCREEN);
-}
-
-std::int32_t GetScreenHeight()
-{
-    return (std::int32_t)GetSystemMetrics(SM_CYSCREEN);
+    return VGet(w, h, 0);
 }
 
 float GetDeltaTime()
@@ -46,12 +37,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     deltaPrevTime = GetNowCount();
 
     // スクリーンサイズを取得し、初期化
-    ScreenSize screenSize;
-    screenSize.x = GetScreenWidth();
-    screenSize.y = GetScreenHeight();
+    VECTOR screenSize = GetScreenSize();
 
     // プレイヤー初期位置の初期化
-    Position playerPosition;
+    VECTOR playerPosition;
     playerPosition.x = 100;
     playerPosition.y = 100;
 
@@ -75,8 +64,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     DxlibStudy::Camera camera;
 
     // ワールド生成
+    World world;
+
     Cube cube1(VGet(-150.0f, -150.0f, -150.0f), 100, 100, 100);
-    Cube cube2(VGet(-50.0f, -50.0f, -50.0f), 100, 100, 100);
+    Cube cube2(VGet(-50.0f, -150.0f, -150.0f), 100, 100, 100);
+    CubeObject cubeObject1 = {1, cube1};
+    CubeObject cubeObject2 = {2, cube2};
+    world.AddCube(cubeObject1);
+    world.AddCube(cubeObject2);
 
     // メインループ
     while (ProcessMessage() == 0 && ClearDrawScreen() == 0)
@@ -92,7 +87,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         // キー入力
         if (CheckHitKey(KEY_INPUT_F12))
         {
-            renderSurface = !renderSurface;
+            if (world.isDebug)
+            {
+                world.DEBUG_HideWireFrame();
+            }
+            else
+            {
+                world.DEBUG_ShowWireFrame();
+            }
         }
 
         // 文字列を画面に表示
@@ -100,8 +102,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
                                     "\nScreen update: " + std::to_string(fps) + "fps";
         DrawString(0, 0, screenInfoMsg.c_str(), GetColor(255, 255, 255));
 
-        cube1.Draw();
-        cube2.Draw();
+        // ワールド描画
+        world.Draw();
 
         // 画面の更新
         ScreenFlip();

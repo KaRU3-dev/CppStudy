@@ -18,6 +18,13 @@ void Cube::UpdatePos(VECTOR pos)
     this->pos = pos;
 }
 
+void Cube::UpdateSize(int x_width, int y_height, int z_depth)
+{
+    this->x_width = x_width;
+    this->y_height = y_height;
+    this->z_depth = z_depth;
+}
+
 void Cube::Draw()
 {
     VECTOR origin = VGet(
@@ -35,5 +42,75 @@ void Cube::Draw()
         GetColor(255, 255, 0),
         GetColor(0, 0, 0),
         this->renderSurface);
+}
+
+void Cube::DEBUG_ShowWireFrame()
+{
+    this->renderSurface = FALSE;
+}
+
+void Cube::DEBUG_HideWireFrame()
+{
+    this->renderSurface = TRUE;
+}
+#pragma endregion
+
+#pragma region World
+void World::AddCube(CubeObject cube)
+{
+    this->Cubes.push_back(cube);
+}
+
+void World::RemoveCube(int id)
+{
+    for (auto it = this->Cubes.begin(); it != this->Cubes.end(); ++it)
+    {
+        if (it->id == id)
+        {
+            this->Cubes.erase(it);
+            break;
+        }
+    }
+}
+
+void World::UpdateACube(int id, VECTOR pos, int x_width, int y_height, int z_depth)
+{
+    for (auto it = this->Cubes.begin(); it != this->Cubes.end(); ++it)
+    {
+        if (it->id == id)
+        {
+            it->object.UpdatePos(pos);
+            it->object.UpdateSize(x_width, y_height, z_depth);
+            break;
+        }
+    }
+}
+
+void World::Draw()
+{
+    for (auto it = this->Cubes.begin(); it != this->Cubes.end(); ++it)
+    {
+        it->object.Draw();
+    }
+}
+
+void World::DEBUG_ShowWireFrame()
+{
+    this->isDebug = true;
+
+    for (auto it = this->Cubes.begin(); it != this->Cubes.end(); ++it)
+    {
+        it->object.DEBUG_ShowWireFrame();
+    }
+}
+
+void World::DEBUG_HideWireFrame()
+{
+    this->isDebug = false;
+
+    for (auto it = this->Cubes.begin(); it != this->Cubes.end(); ++it)
+    {
+        it->object.DEBUG_HideWireFrame();
+    }
 }
 #pragma endregion

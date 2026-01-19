@@ -18,6 +18,7 @@ namespace DxLibStudy
     public:
         Cube(VECTOR pos, int x_width, int y_height, int z_depth);
         void UpdatePos(VECTOR pos);
+        void UpdateSize(int x_width, int y_height, int z_depth);
         void Draw();
 
         void DEBUG_ShowWireFrame();
@@ -34,11 +35,15 @@ namespace DxLibStudy
     {
     public:
         std::list<CubeObject> Cubes;
+        bool isDebug = false;
 
         void AddCube(CubeObject cube);
         void RemoveCube(int id);
         void UpdateACube(int id, VECTOR pos, int x_width, int y_height, int z_depth);
         void Draw();
+
+        void DEBUG_ShowWireFrame();
+        void DEBUG_HideWireFrame();
     };
 }
 
