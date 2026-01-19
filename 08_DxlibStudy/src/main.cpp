@@ -4,8 +4,10 @@
 #include <math.h>
 
 #include "Camera.h"
+#include "World.h"
 
 using namespace DxLib;
+using namespace DxLibStudy;
 
 constexpr std::int16_t FONT_SIZE = 20;
 constexpr std::int32_t PLAYERSPEED = 500;
@@ -64,8 +66,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         return -1; // エラー時終了
     }
 
+    // ゲーム内環境の初期化
+    SetUseLighting(FALSE);
+    int renderSurface = TRUE;
+
+    // カメラの初期化
     SetCameraNearFar(1.0f, 2000.0f); // クリップ距離
     DxlibStudy::Camera camera;
+
+    // ワールド生成
+    Cube cube1(VGet(-150.0f, -150.0f, -150.0f), 100, 100, 100);
+    Cube cube2(VGet(-50.0f, -50.0f, -50.0f), 100, 100, 100);
 
     // メインループ
     while (ProcessMessage() == 0 && ClearDrawScreen() == 0)
@@ -78,18 +89,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         camera.Update();
         camera.Apply();
 
+        // キー入力
+        if (CheckHitKey(KEY_INPUT_F12))
+        {
+            renderSurface = !renderSurface;
+        }
+
         // 文字列を画面に表示
         std::string screenInfoMsg = "Screen Size: " + std::to_string(screenSize.x) + "x" + std::to_string(screenSize.y) +
                                     "\nScreen update: " + std::to_string(fps) + "fps";
         DrawString(0, 0, screenInfoMsg.c_str(), GetColor(255, 255, 255));
 
-        // DrawCube3D(Pos1, Pos2, DifColor, SpcColor, FillFlag)
-        // Pos1 と Pos2 で対角の 2 点を指定（VECTOR）
-        DrawCube3D(VGet(-150.0f, -150.0f, -150.0f),
-                   VGet(50.0f, 50.0f, 50.0f),
-                   GetColor(0, 255, 0), // ディフューズ色
-                   GetColor(0, 255, 0), // スペキュラ色（光沢）
-                   TRUE);               // TRUE=塗りつぶし、FALSE=ワイヤーフレーム
+        cube1.Draw();
+        cube2.Draw();
 
         // 画面の更新
         ScreenFlip();
