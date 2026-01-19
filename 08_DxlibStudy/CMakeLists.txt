@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
+include_directories(${CMAKE_SOURCE_DIR}/src/includes)
 
 add_executable(DxlibStudy WIN32 ${SRC_FILES})
 
