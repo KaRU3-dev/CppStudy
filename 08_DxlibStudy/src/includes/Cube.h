@@ -1,6 +1,7 @@
 #pragma once
 #include "DxLib.h"
 #include <array>
+#include <list>
 
 #ifndef CUBE_H
 #define CUBE_H
@@ -27,12 +28,15 @@ namespace DxLibStudy::GameObjects
     class Cube
     {
     private:
-        int BOTTOM_GRAPH = DX_NONE_GRAPH;
-        int TOP_GRAPH = DX_NONE_GRAPH;
-        int SOUTH_GRAPH = DX_NONE_GRAPH;
-        int NORTH_GRAPH = DX_NONE_GRAPH;
-        int EAST_GRAPH = DX_NONE_GRAPH;
-        int WEST_GRAPH = DX_NONE_GRAPH;
+        std::array<u_int, SURFACE_COUNT> textureIds;
+        std::array<bool, SURFACE_COUNT> drawState = {
+            true, // 下
+            true, // 上
+            true, // 奥
+            true, // 手前
+            true, // 右
+            true, // 左
+        };
 
         VECTOR pos;   // 原点に一番近い点
         int x_width;  // 横
@@ -41,7 +45,6 @@ namespace DxLibStudy::GameObjects
         int renderSurface;
         std::array<std::array<VERTEX3D, VERTEX_COUNT>, SURFACE_COUNT> surfaces{};
 
-        void CreateSurface();
         std::array<VERTEX3D, VERTEX_COUNT> CreateSouthPolygon();
         std::array<VERTEX3D, VERTEX_COUNT> CreateNorthPolygon();
         std::array<VERTEX3D, VERTEX_COUNT> CreateEastPolygon();

@@ -10,75 +10,49 @@ Cube::Cube(VECTOR pos, int x_width, int y_height, int z_depth)
     this->z_depth = z_depth;
     this->renderSurface = TRUE;
 
-    BOTTOM_GRAPH = LoadGraph("assets/images/CubeSurface_bottom.png", FALSE);
-    TOP_GRAPH = LoadGraph("assets/images/CubeSurface_top.png", FALSE);
-    SOUTH_GRAPH = LoadGraph("assets/images/CubeSurface_south.png", FALSE);
-    NORTH_GRAPH = LoadGraph("assets/images/CubeSurface_north.png", FALSE);
-    EAST_GRAPH = LoadGraph("assets/images/CubeSurface_east.png", FALSE);
-    WEST_GRAPH = LoadGraph("assets/images/CubeSurface_west.png", FALSE);
+    textureIds.at(SURFACE_BOTTOM) = LoadGraph("assets/images/CubeSurface_bottom.png");
+    textureIds.at(SURFACE_TOP) = LoadGraph("assets/images/CubeSurface_top.png");
+    textureIds.at(SURFACE_SOUTH) = LoadGraph("assets/images/CubeSurface_south.png");
+    textureIds.at(SURFACE_NORTH) = LoadGraph("assets/images/CubeSurface_north.png");
+    textureIds.at(SURFACE_EAST) = LoadGraph("assets/images/CubeSurface_east.png");
+    textureIds.at(SURFACE_WEST) = LoadGraph("assets/images/CubeSurface_west.png");
 
-    CreateSurface();
-}
-
-Cube::~Cube()
-{
-    DeleteGraph(BOTTOM_GRAPH);
-    DeleteGraph(TOP_GRAPH);
-    DeleteGraph(SOUTH_GRAPH);
-    DeleteGraph(NORTH_GRAPH);
-    DeleteGraph(EAST_GRAPH);
-    DeleteGraph(WEST_GRAPH);
-}
-
-void Cube::DrawSurface()
-{
-    for (int i = 0; i < SURFACE_COUNT; i++)
-    {
-        int TexID;
-        switch (i)
-        {
-        case SURFACE_BOTTOM:
-            TexID = BOTTOM_GRAPH;
-            break;
-        case SURFACE_TOP:
-            TexID = TOP_GRAPH;
-            break;
-        case SURFACE_SOUTH:
-            TexID = SOUTH_GRAPH;
-            break;
-        case SURFACE_NORTH:
-            TexID = NORTH_GRAPH;
-            break;
-        case SURFACE_EAST:
-            TexID = EAST_GRAPH;
-            break;
-        case SURFACE_WEST:
-            TexID = WEST_GRAPH;
-            break;
-        }
-
-        VERTEX3D v[6];
-        for (int j = 0; j < 6; j++)
-        {
-            v[j].pos = surfaces.at(i)[j].pos;
-            v[j].dif = surfaces.at(i)[j].dif;
-            v[j].norm = surfaces.at(i)[j].norm;
-            v[j].u = surfaces.at(i)[j].u;
-            v[j].v = surfaces.at(i)[j].v;
-        }
-
-        DrawPolygon3D(v, 6, TexID, !renderSurface);
-    }
-}
-
-void Cube::CreateSurface()
-{
     surfaces.at(SURFACE_BOTTOM) = CreateBottomPolygon();
     surfaces.at(SURFACE_TOP) = CreateTopPolygon();
     surfaces.at(SURFACE_SOUTH) = CreateSouthPolygon();
     surfaces.at(SURFACE_NORTH) = CreateNorthPolygon();
     surfaces.at(SURFACE_EAST) = CreateEastPolygon();
     surfaces.at(SURFACE_WEST) = CreateWestPolygon();
+}
+
+Cube::~Cube()
+{
+    for (auto item : textureIds)
+    {
+        DeleteGraph(item);
+    }
+}
+
+void Cube::DrawSurface()
+{
+    for (int i = 0; i < SURFACE_COUNT; i++)
+    {
+        auto surface = surfaces.at(i);
+
+        if (drawState.at(i) == false)
+        {
+            for (auto &v : surface)
+            {
+                v.dif = GetColorU8(0, 0, 0, 0);
+            }
+
+            DrawPolygon3D(surface.data(), 6, textureIds.at(i), FALSE);
+        }
+        else
+        {
+            DrawPolygon3D(surface.data(), 6, textureIds.at(i), FALSE);
+        }
+    }
 }
 
 std::array<VERTEX3D, VERTEX_COUNT> Cube::CreateSouthPolygon()

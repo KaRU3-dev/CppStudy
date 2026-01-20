@@ -45,8 +45,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     playerPosition.y = 100;
 
     // 画面モードの変更
-    SetGraphMode(screenSize.x, screenSize.y, 32);
-    ChangeWindowMode(FALSE);
+    SetGraphMode(screenSize.x - 500, screenSize.y - 100, 32);
+    ChangeWindowMode(TRUE);
     SetDrawScreen(DX_SCREEN_BACK);
 
     // DXライブラリの初期化
@@ -57,6 +57,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // ゲーム内環境の初期化
     SetUseLighting(FALSE);
+    SetUseBackCulling(TRUE);
     SetUseZBuffer3D(TRUE);
     SetWriteZBuffer3D(TRUE);
     int renderSurface = TRUE;
