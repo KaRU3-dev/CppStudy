@@ -72,7 +72,7 @@ void Camera::UpdateMove()
         pos = VAdd(pos, VScale(right, speed));
     if (CheckHitKey(KEY_INPUT_SPACE))
         pos.y += speed;
-    if (CheckHitKey(KEY_INPUT_LSHIFT))
+    if (CheckHitKey(KEY_INPUT_C))
         pos.y -= speed;
 }
 
