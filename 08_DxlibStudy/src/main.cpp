@@ -45,9 +45,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     playerPosition.y = 100;
 
     // 画面モードの変更
-    SetGraphMode(screenSize.x - 500, screenSize.y - 100, 32);
-    ChangeWindowMode(TRUE);
-    SetDrawScreen(DX_SCREEN_BACK);
+    SetGraphMode(screenSize.x, screenSize.y, 32); // 画面モード設定
+    ChangeWindowMode(FALSE);                      // デフォルトのウィンドウモード設定 FALSE -> フルスクリーン
+    SetDrawScreen(DX_SCREEN_BACK);                // デフォルトの描画場所
+    SetWaitVSyncFlag(TRUE);                       // 垂直同期
 
     // DXライブラリの初期化
     if (DxLib_Init() == -1)
@@ -62,22 +63,33 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     SetWriteZBuffer3D(TRUE);
     int renderSurface = TRUE;
 
+    // グラフ初期化
+    int bt = LoadGraph("assets/images/CubeSurface_bottom.png");
+    int tt = LoadGraph("assets/images/CubeSurface_top.png");
+    int st = LoadGraph("assets/images/CubeSurface_south.png");
+    int nt = LoadGraph("assets/images/CubeSurface_north.png");
+    int et = LoadGraph("assets/images/CubeSurface_east.png");
+    int wt = LoadGraph("assets/images/CubeSurface_west.png");
+    std::array<int, 6> textureIds = {bt, tt, st, nt, et, wt};
+
     // カメラの初期化
-    SetCameraNearFar(1.0f, 2000.0f); // クリップ距離
+    SetCameraNearFar(1.0f, 20000.0f); // クリップ距離
     DxlibStudy::Camera camera;
 
     // ワールド生成
     DxLibStudy::World world;
 
-    DxLibStudy::Cube cube1(VGet(-150.0f, -150.0f, -150.0f), 100, 100, 100);
-    DxLibStudy::Cube cube2(VGet(-50.0f, -150.0f, -150.0f), 100, 100, 100);
+    DxLibStudy::GameObjects::Cube cube1(VGet(0.0f, 0.0f, 0.0f), textureIds, 100, 100, 100);
+    DxLibStudy::GameObjects::Cube cube2(VGet(0.0f, 0.0f, 1.0f * 100.0f), textureIds, 100, 100, 100);
+    DxLibStudy::GameObjects::Cube cube3(VGet(0.0f, 0.0f, 1.0f * 200.0f), textureIds, 100, 100, 100);
+
     DxLibStudy::CubeObject cubeObject1 = {1, cube1};
     DxLibStudy::CubeObject cubeObject2 = {2, cube2};
+    DxLibStudy::CubeObject cubeObject3 = {3, cube3};
+
     world.AddCube(cubeObject1);
     world.AddCube(cubeObject2);
-
-    int r, g, b;
-    GetTransColor(&r, &g, &b);
+    world.AddCube(cubeObject3);
 
     // メインループ
     while (ProcessMessage() == 0 && ClearDrawScreen() == 0)
@@ -105,14 +117,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
         // 文字列を画面に表示
         std::string screenInfoMsg = "Screen Size: " + std::to_string(screenSize.x) + "x" + std::to_string(screenSize.y) +
-                                    "\nScreen update: " + std::to_string(fps) + "fps" +
-                                    "\nTransfer color: " + std::to_string(r) + "," + std::to_string(g) + "," + std::to_string(b);
+                                    "\nScreen update: " + std::to_string(fps) + "fps";
         DrawString(0, 0, screenInfoMsg.c_str(), GetColor(255, 255, 255));
 
         // ワールド描画
-        // world.Draw();
-        DxLibStudy::GameObjects::Cube cube3(VGet(0.0f, 0.0f, 0.0f), 100, 100, 100);
-        cube3.DrawSurface();
+        world.Draw();
 
         // 画面の更新
         ScreenFlip();

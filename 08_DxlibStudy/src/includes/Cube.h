@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include <array>
 #include <list>
+#include <string>
 
 #ifndef CUBE_H
 #define CUBE_H
@@ -22,6 +23,8 @@
 #define VERTEX_RIGHT_BR 3
 #define VERTEX_RIGHT_TL 4
 #define VERTEX_RIGHT_TR 5
+
+#define CUBE_DEFAULT_SIZE 50 // デフォルトサイズ
 
 namespace DxLibStudy::GameObjects
 {
@@ -53,7 +56,7 @@ namespace DxLibStudy::GameObjects
         std::array<VERTEX3D, VERTEX_COUNT> CreateBottomPolygon();
 
     public:
-        Cube(VECTOR pos, int x_width, int y_height, int z_depth);
+        Cube(VECTOR pos, std::array<int, SURFACE_COUNT> textureIds, int x_width = CUBE_DEFAULT_SIZE, int y_height = CUBE_DEFAULT_SIZE, int z_depth = CUBE_DEFAULT_SIZE);
         ~Cube();
 
         void UpdatePos(VECTOR pos);
