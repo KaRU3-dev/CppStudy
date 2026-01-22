@@ -27,10 +27,6 @@ Cube::Cube(VECTOR pos, std::array<int, SURFACE_COUNT> textureIds, int x_width, i
 
 Cube::~Cube()
 {
-    for (auto item : textureIds)
-    {
-        DeleteGraph(item);
-    }
 }
 
 void Cube::DrawSurface()
@@ -41,41 +37,43 @@ void Cube::DrawSurface()
 
         if (drawState.at(i) == false)
         {
-            for (auto &v : surface)
-            {
-                v.dif = GetColorU8(0, 0, 0, 0);
-            }
+            // for (auto &v : surface)
+            // {
+            //     v.dif = GetColorU8(0, 0, 0, 0);
+            // }
 
-            DrawPolygon3D(surface.data(), 6, textureIds.at(i), FALSE);
+            // DrawPolygon3D(surface.data(), 6, textureIds.at(i), FALSE);
+            continue;
         }
         else
         {
             DrawPolygon3D(surface.data(), 6, textureIds.at(i), FALSE);
         }
     }
-
-    DrawString(0, 100 + pos.z, "Renderd Surface", GetColor(255, 255, 255));
 }
 
 std::array<VERTEX3D, VERTEX_COUNT> Cube::CreateSouthPolygon()
 {
     std::array<VERTEX3D, 6> v;
+    float w = this->x_width / 2.0f;
+    float h = this->y_height / 2.0f;
+    float d = this->z_depth / 2.0f;
 
     // 左側三角形
-    v[VERTEX_LEFT_BL].pos = VGet(-1 * CUBE_DEFAULT_SIZE + pos.x, -1 * CUBE_DEFAULT_SIZE + pos.y, -1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_BL].pos = VGet(-1 * w + pos.x, -1 * h + pos.y, -1 * d + pos.z);
     v[VERTEX_LEFT_BL].u = 0.0f;
     v[VERTEX_LEFT_BL].v = 1.0f;
-    v[VERTEX_LEFT_TL].pos = VGet(-1 * CUBE_DEFAULT_SIZE + pos.x, 1 * CUBE_DEFAULT_SIZE + pos.y, -1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_TL].pos = VGet(-1 * w + pos.x, 1 * h + pos.y, -1 * d + pos.z);
     v[VERTEX_LEFT_TL].u = 0.0f;
     v[VERTEX_LEFT_TL].v = 0.0f;
-    v[VERTEX_LEFT_BR].pos = VGet(1 * CUBE_DEFAULT_SIZE + pos.x, -1 * CUBE_DEFAULT_SIZE + pos.y, -1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_BR].pos = VGet(1 * w + pos.x, -1 * h + pos.y, -1 * d + pos.z);
     v[VERTEX_LEFT_BR].u = 1.0f;
     v[VERTEX_LEFT_BR].v = 1.0f;
 
     // 右側三角形
     v[VERTEX_RIGHT_BR] = v[VERTEX_LEFT_BR];
     v[VERTEX_RIGHT_TL] = v[VERTEX_LEFT_TL];
-    v[VERTEX_RIGHT_TR].pos = VGet(1 * CUBE_DEFAULT_SIZE + pos.x, 1 * CUBE_DEFAULT_SIZE + pos.y, -1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_RIGHT_TR].pos = VGet(1 * w + pos.x, 1 * h + pos.y, -1 * d + pos.z);
     v[VERTEX_RIGHT_TR].u = 1.0f;
     v[VERTEX_RIGHT_TR].v = 0.0f;
 
@@ -93,22 +91,25 @@ std::array<VERTEX3D, VERTEX_COUNT> Cube::CreateSouthPolygon()
 std::array<VERTEX3D, VERTEX_COUNT> Cube::CreateNorthPolygon()
 {
     std::array<VERTEX3D, 6> v;
+    float w = this->x_width / 2.0f;
+    float h = this->y_height / 2.0f;
+    float d = this->z_depth / 2.0f;
 
     // 左側三角形
-    v[VERTEX_LEFT_BL].pos = VGet(1 * CUBE_DEFAULT_SIZE + pos.x, -1 * CUBE_DEFAULT_SIZE + pos.y, 1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_BL].pos = VGet(1 * w + pos.x, -1 * h + pos.y, 1 * d + pos.z);
     v[VERTEX_LEFT_BL].u = 0.0f;
     v[VERTEX_LEFT_BL].v = 1.0f;
-    v[VERTEX_LEFT_TL].pos = VGet(1 * CUBE_DEFAULT_SIZE + pos.x, 1 * CUBE_DEFAULT_SIZE + pos.y, 1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_TL].pos = VGet(1 * w + pos.x, 1 * h + pos.y, 1 * d + pos.z);
     v[VERTEX_LEFT_TL].u = 0.0f;
     v[VERTEX_LEFT_TL].v = 0.0f;
-    v[VERTEX_LEFT_BR].pos = VGet(-1 * CUBE_DEFAULT_SIZE + pos.x, -1 * CUBE_DEFAULT_SIZE + pos.y, 1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_BR].pos = VGet(-1 * w + pos.x, -1 * h + pos.y, 1 * d + pos.z);
     v[VERTEX_LEFT_BR].u = 1.0f;
     v[VERTEX_LEFT_BR].v = 1.0f;
 
     // 右側三角形
     v[VERTEX_RIGHT_BR] = v[VERTEX_LEFT_BR];
     v[VERTEX_RIGHT_TL] = v[VERTEX_LEFT_TL];
-    v[VERTEX_RIGHT_TR].pos = VGet(-1 * CUBE_DEFAULT_SIZE + pos.x, 1 * CUBE_DEFAULT_SIZE + pos.y, 1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_RIGHT_TR].pos = VGet(-1 * w + pos.x, 1 * h + pos.y, 1 * d + pos.z);
     v[VERTEX_RIGHT_TR].u = 1.0f;
     v[VERTEX_RIGHT_TR].v = 0.0f;
 
@@ -126,22 +127,25 @@ std::array<VERTEX3D, VERTEX_COUNT> Cube::CreateNorthPolygon()
 std::array<VERTEX3D, VERTEX_COUNT> Cube::CreateWestPolygon()
 {
     std::array<VERTEX3D, 6> v;
+    float w = this->x_width / 2.0f;
+    float h = this->y_height / 2.0f;
+    float d = this->z_depth / 2.0f;
 
     // 左側三角形
-    v[VERTEX_LEFT_BL].pos = VGet(-1 * CUBE_DEFAULT_SIZE + pos.x, -1 * CUBE_DEFAULT_SIZE + pos.y, 1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_BL].pos = VGet(-1 * w + pos.x, -1 * h + pos.y, 1 * d + pos.z);
     v[VERTEX_LEFT_BL].u = 0.0f;
     v[VERTEX_LEFT_BL].v = 1.0f;
-    v[VERTEX_LEFT_TL].pos = VGet(-1 * CUBE_DEFAULT_SIZE + pos.x, 1 * CUBE_DEFAULT_SIZE + pos.y, 1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_TL].pos = VGet(-1 * w + pos.x, 1 * h + pos.y, 1 * d + pos.z);
     v[VERTEX_LEFT_TL].u = 0.0f;
     v[VERTEX_LEFT_TL].v = 0.0f;
-    v[VERTEX_LEFT_BR].pos = VGet(-1 * CUBE_DEFAULT_SIZE + pos.x, -1 * CUBE_DEFAULT_SIZE + pos.y, -1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_BR].pos = VGet(-1 * w + pos.x, -1 * h + pos.y, -1 * d + pos.z);
     v[VERTEX_LEFT_BR].u = 1.0f;
     v[VERTEX_LEFT_BR].v = 1.0f;
 
     // 右側三角形
     v[VERTEX_RIGHT_BR] = v[VERTEX_LEFT_BR];
     v[VERTEX_RIGHT_TL] = v[VERTEX_LEFT_TL];
-    v[VERTEX_RIGHT_TR].pos = VGet(-1 * CUBE_DEFAULT_SIZE + pos.x, 1 * CUBE_DEFAULT_SIZE + pos.y, -1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_RIGHT_TR].pos = VGet(-1 * w + pos.x, 1 * h + pos.y, -1 * d + pos.z);
     v[VERTEX_RIGHT_TR].u = 1.0f;
     v[VERTEX_RIGHT_TR].v = 0.0f;
 
@@ -159,22 +163,25 @@ std::array<VERTEX3D, VERTEX_COUNT> Cube::CreateWestPolygon()
 std::array<VERTEX3D, VERTEX_COUNT> Cube::CreateEastPolygon()
 {
     std::array<VERTEX3D, 6> v;
+    float w = this->x_width / 2.0f;
+    float h = this->y_height / 2.0f;
+    float d = this->z_depth / 2.0f;
 
     // 左側三角形
-    v[VERTEX_LEFT_BL].pos = VGet(1 * CUBE_DEFAULT_SIZE + pos.x, -1 * CUBE_DEFAULT_SIZE + pos.y, -1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_BL].pos = VGet(1 * w + pos.x, -1 * h + pos.y, -1 * d + pos.z);
     v[VERTEX_LEFT_BL].u = 0.0f;
     v[VERTEX_LEFT_BL].v = 1.0f;
-    v[VERTEX_LEFT_TL].pos = VGet(1 * CUBE_DEFAULT_SIZE + pos.x, 1 * CUBE_DEFAULT_SIZE + pos.y, -1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_TL].pos = VGet(1 * w + pos.x, 1 * h + pos.y, -1 * d + pos.z);
     v[VERTEX_LEFT_TL].u = 0.0f;
     v[VERTEX_LEFT_TL].v = 0.0f;
-    v[VERTEX_LEFT_BR].pos = VGet(1 * CUBE_DEFAULT_SIZE + pos.x, -1 * CUBE_DEFAULT_SIZE + pos.y, 1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_BR].pos = VGet(1 * w + pos.x, -1 * h + pos.y, 1 * d + pos.z);
     v[VERTEX_LEFT_BR].u = 1.0f;
     v[VERTEX_LEFT_BR].v = 1.0f;
 
     // 右側三角形
     v[VERTEX_RIGHT_BR] = v[VERTEX_LEFT_BR];
     v[VERTEX_RIGHT_TL] = v[VERTEX_LEFT_TL];
-    v[VERTEX_RIGHT_TR].pos = VGet(1 * CUBE_DEFAULT_SIZE + pos.x, 1 * CUBE_DEFAULT_SIZE + pos.y, 1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_RIGHT_TR].pos = VGet(1 * w + pos.x, 1 * h + pos.y, 1 * d + pos.z);
     v[VERTEX_RIGHT_TR].u = 1.0f;
     v[VERTEX_RIGHT_TR].v = 0.0f;
 
@@ -192,22 +199,25 @@ std::array<VERTEX3D, VERTEX_COUNT> Cube::CreateEastPolygon()
 std::array<VERTEX3D, VERTEX_COUNT> Cube::CreateTopPolygon()
 {
     std::array<VERTEX3D, 6> v;
+    float w = this->x_width / 2.0f;
+    float h = this->y_height / 2.0f;
+    float d = this->z_depth / 2.0f;
 
     // 左側三角形
-    v[VERTEX_LEFT_BL].pos = VGet(-1 * CUBE_DEFAULT_SIZE + pos.x, 1 * CUBE_DEFAULT_SIZE + pos.y, -1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_BL].pos = VGet(-1 * w + pos.x, 1 * h + pos.y, -1 * d + pos.z);
     v[VERTEX_LEFT_BL].u = 0.0f;
     v[VERTEX_LEFT_BL].v = 1.0f;
-    v[VERTEX_LEFT_TL].pos = VGet(-1 * CUBE_DEFAULT_SIZE + pos.x, 1 * CUBE_DEFAULT_SIZE + pos.y, 1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_TL].pos = VGet(-1 * w + pos.x, 1 * h + pos.y, 1 * d + pos.z);
     v[VERTEX_LEFT_TL].u = 0.0f;
     v[VERTEX_LEFT_TL].v = 0.0f;
-    v[VERTEX_LEFT_BR].pos = VGet(1 * CUBE_DEFAULT_SIZE + pos.x, 1 * CUBE_DEFAULT_SIZE + pos.y, -1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_BR].pos = VGet(1 * w + pos.x, 1 * h + pos.y, -1 * d + pos.z);
     v[VERTEX_LEFT_BR].u = 1.0f;
     v[VERTEX_LEFT_BR].v = 1.0f;
 
     // 右側三角形
     v[VERTEX_RIGHT_BR] = v[VERTEX_LEFT_BR];
     v[VERTEX_RIGHT_TL] = v[VERTEX_LEFT_TL];
-    v[VERTEX_RIGHT_TR].pos = VGet(1 * CUBE_DEFAULT_SIZE + pos.x, 1 * CUBE_DEFAULT_SIZE + pos.y, 1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_RIGHT_TR].pos = VGet(1 * w + pos.x, 1 * h + pos.y, 1 * d + pos.z);
     v[VERTEX_RIGHT_TR].u = 1.0f;
     v[VERTEX_RIGHT_TR].v = 0.0f;
 
@@ -225,24 +235,27 @@ std::array<VERTEX3D, VERTEX_COUNT> Cube::CreateTopPolygon()
 std::array<VERTEX3D, VERTEX_COUNT> Cube::CreateBottomPolygon()
 {
     std::array<VERTEX3D, 6> v;
+    float w = this->x_width / 2.0f;
+    float h = this->y_height / 2.0f;
+    float d = this->z_depth / 2.0f;
 
     // SIZE = CUBE_DEFAULT_SIZE
 
     // 左側三角形
-    v[VERTEX_LEFT_BL].pos = VGet(-1 * CUBE_DEFAULT_SIZE + pos.x, -1 * CUBE_DEFAULT_SIZE + pos.y, 1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_BL].pos = VGet(-1 * w + pos.x, -1 * h + pos.y, 1 * d + pos.z);
     v[VERTEX_LEFT_BL].u = 0.0f;
     v[VERTEX_LEFT_BL].v = 1.0f;
-    v[VERTEX_LEFT_TL].pos = VGet(-1 * CUBE_DEFAULT_SIZE + pos.x, -1 * CUBE_DEFAULT_SIZE + pos.y, -1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_TL].pos = VGet(-1 * w + pos.x, -1 * h + pos.y, -1 * d + pos.z);
     v[VERTEX_LEFT_TL].u = 0.0f;
     v[VERTEX_LEFT_TL].v = 0.0f;
-    v[VERTEX_LEFT_BR].pos = VGet(1 * CUBE_DEFAULT_SIZE + pos.x, -1 * CUBE_DEFAULT_SIZE + pos.y, 1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_LEFT_BR].pos = VGet(1 * w + pos.x, -1 * h + pos.y, 1 * d + pos.z);
     v[VERTEX_LEFT_BR].u = 1.0f;
     v[VERTEX_LEFT_BR].v = 1.0f;
 
     // 右側三角形
     v[VERTEX_RIGHT_BR] = v[VERTEX_LEFT_BR];
     v[VERTEX_RIGHT_TL] = v[VERTEX_LEFT_TL];
-    v[VERTEX_RIGHT_TR].pos = VGet(1 * CUBE_DEFAULT_SIZE + pos.x, -1 * CUBE_DEFAULT_SIZE + pos.y, -1 * CUBE_DEFAULT_SIZE + pos.z);
+    v[VERTEX_RIGHT_TR].pos = VGet(1 * w + pos.x, -1 * h + pos.y, -1 * d + pos.z);
     v[VERTEX_RIGHT_TR].u = 1.0f;
     v[VERTEX_RIGHT_TR].v = 0.0f;
 

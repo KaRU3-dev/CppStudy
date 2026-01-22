@@ -18,8 +18,11 @@ namespace DxLibStudy
     class World
     {
     public:
+        std::array<int, 6> textureIds;
         std::list<CubeObject> Cubes;
         bool isDebug = false;
+
+        void Generate();
 
         void AddCube(CubeObject cube);
         void RemoveCube(int id);

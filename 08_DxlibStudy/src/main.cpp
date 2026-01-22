@@ -78,24 +78,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // ワールド生成
     DxLibStudy::World world;
-
-    DxLibStudy::GameObjects::Cube cube1(VGet(0.0f, 0.0f, 0.0f), textureIds, 100, 100, 100);
-    DxLibStudy::GameObjects::Cube cube2(VGet(0.0f, 0.0f, 1.0f * 100.0f), textureIds, 100, 100, 100);
-    DxLibStudy::GameObjects::Cube cube3(VGet(0.0f, 0.0f, 1.0f * 200.0f), textureIds, 100, 100, 100);
-
-    DxLibStudy::CubeObject cubeObject1 = {1, cube1};
-    DxLibStudy::CubeObject cubeObject2 = {2, cube2};
-    DxLibStudy::CubeObject cubeObject3 = {3, cube3};
-
-    world.AddCube(cubeObject1);
-    world.AddCube(cubeObject2);
-    world.AddCube(cubeObject3);
+    world.textureIds = textureIds;
+    world.Generate();
 
     // メインループ
-    while (ProcessMessage() == 0 && ClearDrawScreen() == 0)
+    while (ProcessMessage() == 0)
     {
         // 画面をクリア
-        ClearDrawScreen();
+        int isCleared = ClearDrawScreen();
+
+        if (isCleared != 0)
+        {
+            break;
+        }
 
         int fps = GetFPS();
 
@@ -131,6 +126,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         {
             break;
         }
+    }
+
+    // テクスチャの解放
+    for (int textureId : textureIds)
+    {
+        DeleteGraph(textureId);
     }
 
     // DXライブラリの終了処理
