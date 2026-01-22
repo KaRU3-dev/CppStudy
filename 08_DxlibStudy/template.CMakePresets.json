@@ -7,8 +7,8 @@
             "generator": "MinGW Makefiles",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "F:/.env/C_langs/mingw64-v15.2.0/bin/gcc.exe",
-                "CMAKE_CXX_COMPILER": "F:/.env/C_langs/mingw64-v15.2.0/bin/g++.exe",
+                "CMAKE_C_COMPILER": "D:/Develope/.envs/CXX/mingw64/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "D:/Develope/.envs/CXX/mingw64/bin/g++.exe",
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
@@ -21,8 +21,8 @@
             "generator": "MinGW Makefiles",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "F:/.env/C_langs/mingw64-v15.2.0/bin/gcc.exe",
-                "CMAKE_CXX_COMPILER": "F:/.env/C_langs/mingw64-v15.2.0/bin/g++.exe",
+                "CMAKE_C_COMPILER": "D:/Develope/.envs/CXX/mingw64/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "D:/Develope/.envs/CXX/mingw64/bin/g++.exe",
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
