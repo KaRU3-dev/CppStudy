@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <string>
 #include <math.h>
+#include <iostream>
 
 #include "Camera.h"
 #include "Cube.h"
@@ -33,6 +34,8 @@ float GetDeltaTime()
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+    std::cout << "Hello World!" << std::endl;
+
     // 前デルタタイムを初期化
     deltaPrevTime = GetNowCount();
 
