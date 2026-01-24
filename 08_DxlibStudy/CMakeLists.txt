@@ -15,6 +15,7 @@ add_executable(DxlibStudy WIN32 ${SRC_FILES})
 # Include Directories
 target_include_directories(DxlibStudy PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/.libs/dxlib
+    ${CMAKE_CURRENT_SOURCE_DIR}/.libs/PerlinNoise
     ${CMAKE_CURRENT_SOURCE_DIR}/src/includes
 )
 
